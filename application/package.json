@@ -1,0 +1,8 @@
+{
+  "name": "skaffold-moleculer",
+  "version": "0.0.1",
+  "dependencies": {
+    "moleculer": "0.14.28",
+    "nats": "2.11.0"
+  }
+}

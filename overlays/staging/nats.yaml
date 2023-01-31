@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: transporter
+spec:
+  selector:
+    app: transporter
+  ports:
+  - name: nats
+    port: 4222
+    targetPort: 4222
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: transporter
+spec:
+  serviceName: transporter
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transporter
+  template:
+    metadata:
+      labels:
+        app: transporter
+    spec:
+      containers:
+      - name: nats
+        image: nats:latest
+        ports:
+        - containerPort: 4222
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/nats
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
