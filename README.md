@@ -1,0 +1,2 @@
+# skaffold-moleculer
+Example project
